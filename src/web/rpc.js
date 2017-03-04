@@ -16,7 +16,7 @@ function get(t, callback) {
     u = url(PORT - 1, "localhost");
     return getter(t, u, callback);
 }
-function url(port, ip) { return "http://".concat(ip).concat(":").concat(port.toString().concat("/")); }
+function url(port, ip) { return "/"} //"http://".concat(ip).concat(":").concat(port.toString().concat("/")); }
 //PORT = 3010;
 function local_get(t, callback) {
     u = url(PORT, "localhost");

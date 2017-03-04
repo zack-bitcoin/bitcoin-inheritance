@@ -1,20 +1,23 @@
 -module(inheritance).
 -export([time_now/0, doit/2, test/0]).
 doit(Tx, Days) ->
-    Seconds = Days * 86400,
+    %Seconds = Days * 86400,
+    Seconds = Days * 60,
     set_stamp(Tx, Seconds + time_now()).
 time_now() ->
     {A, B, _} = os:timestamp(),
     (A*1000000)+B.
 set_stamp(X, Date) ->
     Y = remove_last_4_bytes(X),
-    Y ++ binary2hex(<<Date:32>>).
+    <<A, B, C, D>> = <<Date:32>>,
+    E = <<D, C, B, A>>,
+    Y ++ binary2hex(E).
 binary2hex(<<>>) -> [];
 binary2hex(<<X, Y/binary>>) -> 
     B = X rem 16,
     A = X div 16,
     [nib2letter(A)|[nib2letter(B)|binary2hex(Y)]].
-remove_last_4_bytes(X) when length(X) == 4 ->
+remove_last_4_bytes(X) when length(X) == 8 ->
     [];
 remove_last_4_bytes([X|T]) ->
     [X|remove_last_4_bytes(T)].

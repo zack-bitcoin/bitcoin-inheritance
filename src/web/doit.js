@@ -3,9 +3,10 @@ function spend1() {
     var days = document.createElement("INPUT");
     days.setAttribute("type", "text"); 
     var days_info = document.createElement("h8");
-    days_info.innerHTML = "how many days till it unlocks: ";
+    days_info.innerHTML = "how many minutes till it unlocks: ";
     document.body.appendChild(days_info);
     document.body.appendChild(days);
+    document.body.appendChild(document.createElement("br"));
     
     var spend_fee = document.createElement("INPUT");
     spend_fee.setAttribute("type", "text"); 
@@ -13,10 +14,11 @@ function spend1() {
     fee_info.innerHTML = "put an unsigned transaction here: ";
     document.body.appendChild(fee_info);
     document.body.appendChild(spend_fee);
+    document.body.appendChild(document.createElement("br"));
     
     var spend_button = document.createElement("BUTTON");
     spend_button.id = "spend_button";
-    var spend_button_text = document.createTextNode("spend");
+    var spend_button_text = document.createTextNode("make bitwill");
     spend_button.appendChild(spend_button_text);
     spend_button.onclick = function() {
 	//var fee = parseInt(spend_fee.value, 16);
@@ -27,6 +29,7 @@ function spend1() {
 	//console.log(ABC.value);
     };
     document.body.appendChild(spend_button);
+    document.body.appendChild(document.createElement("br"));
 
 }
 

@@ -10,10 +10,21 @@ handle(Req, State) ->
     %{Length, Req2} = cowboy_req:body_length(Req),
     {ok, Data, Req3} = cowboy_req:body(Req),
     true = is_binary(Data),
-    A = packer:unpack(Data),
-    B = doit(A),
+    <<X, _/binary>> = Data,
+    io:fwrite("handler Data "),
+    io:fwrite(Data),
+    D2 = case X of
+	     91 -> jiffy:decode(Data);
+	     _ -> packer:unpack(Data)
+	 end,
+    true = is_binary(Data), 
+    %io:fwrite("handler error "),
+    %io:fwrite(D2),
+    %A = packer:unpack(D2),
+    B = doit(D2),
     D = packer:pack(B),
-    Headers = [{<<"content-type">>, <<"application/octet-stream">>},
+    %Headers = [{<<"content-type">>, <<"application/octet-stream">>},
+    Headers = [{<<"content-type">>, <<"text/html">>},
     {<<"Access-Control-Allow-Origin">>, <<"*">>}],
     {ok, Req4} = cowboy_req:reply(200, Headers, D, Req3),
     {ok, Req4, State}.
@@ -23,6 +34,10 @@ terminate(_Reason, _Req, _State) -> ok.
 doit({Y, Days}) -> 
     true = is_integer(Days),
     X = list_to_binary(inheritance:doit(atom_to_list(Y), Days)),
+    {ok, X};
+doit([Y, Days]) -> 
+    true = is_integer(Days),
+    X = list_to_binary(inheritance:doit(binary_to_list(Y), Days)),
     {ok, X};
 doit(X) ->
     io:fwrite("I can't handle this \n"),
